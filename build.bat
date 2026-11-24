@@ -10,10 +10,10 @@ mkdir dist 2>nul
 mkdir build
 
 set "AHK=C:\Program Files\AutoHotkey"
-set "BASE=AutoHotkeyU64.exe"
+set "BASE=AutoHotkey64.exe"
 
 copy "%AHK%\Compiler\Ahk2Exe.exe" .
-copy "%AHK%\%BASE%" .
+copy "%AHK%\v2\%BASE%" .
 
 set "PROJECT=windows-accent-layers"
 

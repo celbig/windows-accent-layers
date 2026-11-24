@@ -90,7 +90,7 @@ You can then type `'a` to produce `á`, or `'e` to produce `é`, and so forth.
 
 Notes:
 - For prefix definitions, prefer using single character prefixes instead of Shift combinations (for example, use `{` instead of `+[`, even though they technically mean the same thing if using the US layout).
-- This is implemented using [hotstrings](https://www.autohotkey.com/docs/v1/Hotstrings.htm), which means that a backspace is sent to delete the prefix character.
+- This is implemented using [hotstrings](https://www.autohotkey.com/docs/v2/Hotstrings.htm), which means that a backspace is sent to delete the prefix character.
 - Since a backspace is sent, keep in mind that this can lead to unexpected behaviors in some applications. As an example, if you were inside a directory in Windows Explorer and typed `[a` while not editing text, a backspace character would be sent, placing you in the previous directory.
 - Despite its drawbacks, the `PREFIX` command can lead to the fastest typing speed for some languages, without the need for swapping layouts, and is the recommended input mode for maximum speed. If you are not comfortable with auto replacements and backspacing, stick with layers and maps.
 
@@ -144,7 +144,7 @@ PREFIXMAP omw => On my way!
 
 ## Hotkeys
 
-This application uses AutoHotkey's [syntax](https://www.autohotkey.com/docs/v1/Hotkeys.htm#Symbols) for defining hotkeys. In case you are not familiar with it, here are the most important keys:
+This application uses AutoHotkey's [syntax](https://www.autohotkey.com/docs/v2/Hotkeys.htm#Symbols) for defining hotkeys. In case you are not familiar with it, here are the most important keys:
 
 - `^` is `Ctrl`
 - `#` is `Win`
@@ -160,11 +160,13 @@ Some applications running with elevated privileges (such Task Manager, Windows S
 If you wish this application to run automatically at startup (with or without elevated privileges), or if you are concerned about security (false positives), see the [shared project documentation](https://github.com/vieuxtemps/ahk-shared-docs).
 
 # Installation and usage
-You can either download and execute the script directly with [AutoHotkey v1](https://github.com/AutoHotkey/AutoHotkey/releases/tag/v1.1.37.01), or download and execute the pre-compiled binaries. This code was only tested with AutoHotkey v1.1.37.01, and will not run with AutoHotkey v2.
+You can either download and execute the script directly with [AutoHotkey v2](https://www.autohotkey.com/download/) (v2.0 or later), or download and execute the pre-compiled binaries. Since v3.0.0 this code requires AutoHotkey v2 and will not run with AutoHotkey v1.
+
+Upgrading from v2.x: keymap files and `options.ini` are unchanged, so your custom keymaps and settings keep working.
 
 ## As a script
 - Download the source code.
-- Open **windows-accent-layers.ahk** with [AutoHotkey v1](https://github.com/AutoHotkey/AutoHotkey/releases/tag/v1.1.37.01) (Unicode version).
+- Open **windows-accent-layers.ahk** with [AutoHotkey v2](https://www.autohotkey.com/download/).
 
 ## Compiled version
 - Download and unzip the binaries.
@@ -179,7 +181,7 @@ You can either download and execute the script directly with [AutoHotkey v1](htt
 If you use [neo-mousekeys](https://github.com/vieuxtemps/neo-mousekeys), enable `NEOMOUSEKEYS_SUPPORT=1` to avoid hotkey conflicts while neo-mousekeys is active.
 
 # Troubleshooting
-In case you encounter any issues with garbage characters after editing keymap definitions, make sure you are saving them with UTF-16 LE encoding. Other character encodings, such as UTF-8, UTF-8 with BOM and UTF-16 BE will most likely produce garbage characters. Make sure you are also using a Unicode version of AutoHotkey.
+In case you encounter any issues with garbage characters after editing keymap definitions, make sure you are saving them as UTF-16 LE (the encoding of the bundled keymaps), UTF-8 or UTF-8 with BOM. Other encodings, such as ANSI/Windows-1252 or UTF-16 BE, will most likely produce garbage characters.
 
 # Acknowledgements
 This project was initially developed as a generalization of Lexikos' original [script](https://autohotkey.com/board/topic/27801-special-characters-osx-style/?p=697602) for typing special characters on Windows, along with its very elegant data format. Icon art is provided by [kumakamu](https://flaticon.com/authors/kumakamu).
