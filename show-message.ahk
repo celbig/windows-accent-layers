@@ -1,39 +1,40 @@
-global TaskbarHeight := 0
-WinGetPos,,, TaskbarWidth, TaskbarHeight, ahk_class Shell_TrayWnd
-global xPos := LAYOUT_SWITCH_X_OFFSET
+; On-screen display used to show the active layout name (see LAYOUT_SWITCH_* options)
 
-global yPos := A_ScreenHeight - TaskbarHeight + 8 + LAYOUT_SWITCH_Y_OFFSET
+InitOSD() {
+  global osd, osdText, osdX, osdY
 
-; Gui, +LastFound +AlwaysOnTop -Caption +ToolWindow
-Gui, +LastFound -Caption +ToolWindow
-Gui, Color, 000000
+  taskbarHeight := 0
+  try WinGetPos(, , , &taskbarHeight, "ahk_class Shell_TrayWnd")
 
-Gui, Font, s10 cWhite w700 q3, Verdana
+  osdX := LAYOUT_SWITCH_X_OFFSET
+  osdY := A_ScreenHeight - taskbarHeight + 8 + LAYOUT_SWITCH_Y_OFFSET
 
-WinSet, ExStyle, +0x20 ; Make the GUI window click-through
-WinSet, Transparent, 215
+  ; osd := Gui("+AlwaysOnTop -Caption +ToolWindow")
+  osd := Gui("-Caption +ToolWindow")
+  osd.BackColor := "000000"
+  osd.SetFont("s10 cWhite w700 q3", "Verdana")
 
-WinSet, TransColor, 000000 215
+  WinSetExStyle("+0x20", osd) ; Make the GUI window click-through
+  WinSetTransColor("000000 215", osd)
 
-Gui, Add, Text, vMode Center w%A_ScreenWidth% h18, 0
+  osdText := osd.AddText("Center w" A_ScreenWidth " h18", "0")
+}
 
 ShowMessage(message, color := "White", timer := false) {
   if (not message) {
-    Gui, Show, Hide
+    osd.Hide()
     return
   }
 
-  GuiControl,, Mode, %message%
-  Gui, Font, c%color%
-  GuiControl, Font, Mode
-  try {
-    Gui, Show, X%xPos% Y%yPos% NA
-  }
-  SetTimer, DisableMessage, Delete
+  osdText.Value := message
+  osdText.SetFont("c" color)
+  try osd.Show("X" osdX " Y" osdY " NA")
+
+  SetTimer(HideOSD, 0)
   if (timer)
-    SetTimer, DisableMessage, -%timer%
-  return
-  DisableMessage:
-    Gui, Show, Hide
-  return
+    SetTimer(HideOSD, -timer)
+}
+
+HideOSD() {
+  osd.Hide()
 }
